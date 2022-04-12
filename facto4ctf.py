@@ -29,7 +29,6 @@ from modules.factoring.qicheng import qicheng
 
 ## All functions
 all_ = {
-        'factordb':factordb_search,
         'fermat':fermat,
         'ecm':ecm,
         'ecm2':ecm2,
@@ -85,6 +84,7 @@ def parse_args():
     parser.add_argument("-t",dest="timeout",type=int,help="Set Timeout (minutes) (default=5min)")
     parser.add_argument("-v",dest="verbose", action="store_true", default=False, help="Use verbose mode.")
     parser.add_argument("-q",dest="quiet", action="store_true", default=False, help="Use quiet mode.")
+    parser.add_argument("-j",dest="json", action="store_true", default=False, help="Use json mode.")
     args = parser.parse_args()
     return args
 
@@ -106,33 +106,37 @@ def main():
     ## Get algorithm
     All_Alg = GetAlg(args.all_method,args.algorithm)
 
-    ## Init Thread list
-    all_thread = []
-    stopper = thread_stop()
-    timeout = 5*60
+    ## Check on factorDB first
+    if(factordb_search(args.number,args) == None):
+        ## Init Thread list
+        all_thread = []
+        stopper = thread_stop()
+        timeout = 5*60
 
-    if(args.timeout != None):
-        timeout = args.timeout*60
+        if(args.timeout != None):
+            timeout = args.timeout*60
 
-    for k in range(len(All_Alg)):
+        for k in range(len(All_Alg)):
 
-        ## Log
-        if(not args.quiet and args.verbose):logger('[+] Starting %s attack '%All_Alg[k][0],'info',0,0)   
+            ## Log
+            if(not args.quiet and args.verbose):logger('[+] Starting %s attack '%All_Alg[k][0],'info',0,0)   
 
-        ## Create Thread
-        t1 = threading.Thread(target = All_Alg[k][1], args = (stopper,args.number,timeout,args))
-        all_thread.append(t1)
-    
+            ## Create Thread
+            t1 = threading.Thread(target = All_Alg[k][1], args = (stopper,args.number,timeout,args))
+            all_thread.append(t1)
+        
 
-    ## Start Thread
-    [t.start() for t in all_thread]
+        ## Start Thread
+        [t.start() for t in all_thread]
 
-    t_timeout = threading.Thread(target = waiter, args = (timeout,stopper))
-    t_timeout.start()
+        t_timeout = threading.Thread(target = waiter, args = (timeout,stopper))
+        t_timeout.start()
 
-    ## Wait For all Thread
-    [t.join() for t in all_thread]
-    stopper.cancel()
+        ## Wait For all Thread
+        [t.join() for t in all_thread]
+
+        stopper.cancel()
+
 
 if __name__ == '__main__': 
     main()
