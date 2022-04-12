@@ -56,7 +56,14 @@ class thread_stop:
    def cancel(self):
        self.is_cancelled = True
 
-
+def waiter(timeout,stop):
+    for k in range(timeout):
+        time.sleep(k)
+        if(stop.is_cancelled):
+            return
+    stop.cancel()
+    return
+    
 def header():
     ## header
     logger(r"""
@@ -89,8 +96,6 @@ def GetAlg(all_method,algorithm):
     else:
         return [name for name in all_.items() if(algorithm == name[0])]
 
-
-
 def main():
     args = parse_args()
 
@@ -115,14 +120,18 @@ def main():
         if(not args.quiet and args.verbose):logger('[+] Starting %s attack '%All_Alg[k][0],'info',0,0)   
 
         ## Create Thread
-        t1 = threading.Thread(target = All_Alg[k][1], args =(stopper,args.number,timeout,args))
+        t1 = threading.Thread(target = All_Alg[k][1], args = (stopper,args.number,timeout,args))
         all_thread.append(t1)
-        
+    
+
     ## Start Thread
     [t.start() for t in all_thread]
 
+    t_timeout = threading.Thread(target = waiter, args = (timeout,stopper))
+    t_timeout.start()
+
     ## Wait For all Thread
-    [t.join() for t in all_thread]
+    #[t.join() for t in all_thread]
 
 
 if __name__ == '__main__': 
