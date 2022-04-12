@@ -37,13 +37,16 @@ def logger(message,context=None,newline=0,tab=0):
 def found_prime(p,q,stop,args,method):
     if(not stop.is_cancelled):
         stop.cancel()
-        if(args.verbose):
-            logger("[+] %s attack found :"%method,'log',1,0)
-            
-        if not args.quiet:
-            logger('[>] P=%s'%str(p),'flag',0,1)
-            logger('[>] Q=%s'%str(q),'flag',0,1)
+        if(not args.json):
+            if(args.verbose):
+                logger("[+] %s attack found :"%method,'log',1,0)
+                
+            if not args.quiet:
+                logger('[>] P=%s'%str(p),'flag',0,1)
+                logger('[>] Q=%s'%str(q),'flag',0,1)
+            else:
+                print(str(p))
+                print(str(q))
         else:
-            print(str(p))
-            print(str(q))
+            print("{'method':'%s','factor':[%s,%s]}"%(method,str(p),str(q)))
 
