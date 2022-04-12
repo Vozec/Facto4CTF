@@ -131,8 +131,8 @@ def main():
     t_timeout.start()
 
     ## Wait For all Thread
-    #[t.join() for t in all_thread]
-
+    [t.join() for t in all_thread]
+    stopper.cancel()
 
 if __name__ == '__main__': 
     main()
