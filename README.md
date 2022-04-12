@@ -10,7 +10,7 @@ This tool is used to try out different factoring techniques (based on RsaCTFTool
 
 ## Commands :
 ```
-usage: facto4ctf.py [-h] -n NUMBER [-a] [-m ALGORITHM] [-t TIMEOUT] [-v] [-q]
+usage: facto4ctf.py [-h] -n NUMBER [-a] [-m ALGORITHM] [-t TIMEOUT] [-v] [-q] [-j]
 
 This tool is used to try out different factoring techniques. Mainly used in CTF.
 
@@ -18,12 +18,12 @@ optional arguments:
   -h, --help    show this help message and exit
   -n NUMBER     Number to factor
   -a            Try all algorithm
-  -m ALGORITHM  Choose an algorithm : ['factordb', 'fermat', 'ecm', 'ecm2', 'pollard_rho',
-                'pollard_p_1', 'z3', 'smallq', 'mersene_prime', 'mersenne_pm1_gcd', 'euler',
-                'fibonacci_gcd', 'brent', 'smallfraction', 'roca', 'qicheng']
+  -m ALGORITHM  Choose an algorithm : ['fermat', 'ecm', 'ecm2', 'pollard_rho', 'pollard_p_1', 'z3', 'smallq', 'mersene_prime', 'mersenne_pm1_gcd', 'euler', 'fibonacci_gcd', 'brent',
+                'smallfraction', 'roca', 'qicheng']
   -t TIMEOUT    Set Timeout (minutes) (default=5min)
   -v            Use verbose mode.
   -q            Use quiet mode.
+  -j            Use json mode.
 ```
 
 ## Usage:
@@ -43,6 +43,7 @@ python3 -m pip install -r requirements.txt
 - **-t** : Set Timeout
 - **-a** : Test all algorithm
 - **-q** : Don't displays the header
+- **-j** : Return Factors in Json Format
 
 ## Démo :
 
