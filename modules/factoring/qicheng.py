@@ -45,14 +45,17 @@ class KThread(threading.Thread):
 			if(int(p)*q != this.n or p==1 ):
 				return None
 			else:
-				if(this.args.verbose):
-					logger("[+] qicheng attack found",'log',1,0)
-				if not this.args.quiet:
-					logger('[>] P=%s'%p,'flag',0,1)
-					logger('[>] Q=%s'%str(q),'flag',0,1)
+				if(not this.args.json):
+					if(this.args.verbose):
+						logger("[+] qicheng attack found",'log',1,0)
+					if not this.args.quiet:
+						logger('[>] P=%s'%str(p),'flag',0,1)
+						logger('[>] Q=%s'%str(q),'flag',0,1)
+					else:
+						print(str(p))
+						print(str(q))
 				else:
-					print(p)
-					print(str(q))
+					print("{'method':'qicheng','factor':[%s,%s]}"%(str(p),str(q)))
 
 
 				this.found = True
