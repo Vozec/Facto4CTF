@@ -55,7 +55,7 @@ class KThread(threading.Thread):
 						print(str(p))
 						print(str(q))
 				else:
-					print("{'method':'ecm2','factor':[%s,%s]}"%(str(p),str(q)))
+					print('{"method":"ecm2","factor":[%s,%s]}'%(str(p),str(q)))
 
 
 				this.found = True

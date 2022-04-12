@@ -48,5 +48,5 @@ def found_prime(p,q,stop,args,method):
                 print(str(p))
                 print(str(q))
         else:
-            print("{'method':'%s','factor':[%s,%s]}"%(method,str(p),str(q)))
+            print('{"method":"%s","factor":[%s,%s]}'%(method,str(p),str(q)))
 

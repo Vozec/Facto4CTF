@@ -17,7 +17,7 @@ def factordb_search(n,args):
 				else:
 					print(str(res))
 			else:
-				print("{'method':'factordb','factor':%s}"%(str(res)))
+				print('{"method":"factordb","factor":%s}'%(str(res)))
 			return res
 	except Exception as ex:
 		print(ex)
