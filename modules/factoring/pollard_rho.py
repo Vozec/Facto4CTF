@@ -2,6 +2,7 @@ import time
 from modules.logger import logger
 import random
 
+from modules.logger import logger,found_prime
 from modules.utils import is_prime,gcd
 
 def pollard_rho(stop,n,timeout,args, seed=2, p=2, c=1):
