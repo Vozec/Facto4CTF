@@ -3,7 +3,7 @@ from tqdm import tqdm
 from modules.logger import logger,found_prime
 from modules.utils import gcd,ilog2
 
-def mersenne_pm1_gcd(stop,n,timeout,args):
+def mersenne_pm1_gcd(stop,n,args):
     try:
         p = q = None
         for i in tqdm(range(2, ilog2(n)), disable=True):

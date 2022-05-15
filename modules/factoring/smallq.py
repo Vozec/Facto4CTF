@@ -3,7 +3,7 @@ from modules.logger import logger,found_prime
 
 from modules.utils import primes
 
-def smallq(stop,n,timeout,args):
+def smallq(stop,n,args):
 	try:
 		for prime in primes(100000):
 			if(stop.is_cancelled):

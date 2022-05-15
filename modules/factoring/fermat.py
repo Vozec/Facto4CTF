@@ -3,7 +3,7 @@ from modules.logger import logger,found_prime
 
 from modules.utils import isqrt
 
-def fermat(stop,n,timeout,args):
+def fermat(stop,n,args):
 	try:
 		a = b = isqrt(n)
 		b2 = pow(a, 2) - n

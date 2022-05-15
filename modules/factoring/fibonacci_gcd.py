@@ -6,7 +6,7 @@ from modules.logger import logger,found_prime
 
 from modules.utils import isqrt,powmod,fib,gcd
 
-def fibonacci_gcd(stop,n,timeout,args):
+def fibonacci_gcd(stop,n,args):
 	try:
 		limit = 10000
 		p = q = None

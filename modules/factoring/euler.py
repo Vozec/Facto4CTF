@@ -3,7 +3,7 @@ from tqdm import tqdm
 from modules.logger import logger,found_prime
 from modules.utils import isqrt,gcd
 
-def euler(stop,n,timeout,args):
+def euler(stop,n,args):
 	try:
 		if (n - 1) % 4 != 0:
 			return None

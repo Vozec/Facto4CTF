@@ -3,7 +3,7 @@ from tqdm import tqdm
 from modules.logger import logger,found_prime
 from modules.utils import gcd,next_prime
 
-def primorial_pm1_gcd(stop,n,timeout,args):
+def primorial_pm1_gcd(stop,n,args):
 	try:
 		limit = 100000
 		prime = 1

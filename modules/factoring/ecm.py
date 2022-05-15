@@ -1,16 +1,15 @@
 import time
-import os
 import threading
 import ctypes
 
 from modules.logger import logger,found_prime
 from modules.utils import kill_sage
 
-def ecm(stop,n,timeout,args):
-	try:
-		rootpath = '/'.join(os.path.realpath(__file__).split('/')[:-1])
+from sage.all import *
 
-		t = KThread(stop,n,timeout,args,rootpath)
+def ecm1(stop,n,args):
+	try:
+		t = KThread(stop,n,args)
 		t.start()
 
 		while(True):
@@ -28,23 +27,19 @@ def ecm(stop,n,timeout,args):
 		logger('[+] Error: %s'%str(ex),'error',0,0)
 
 class KThread(threading.Thread):
-	def __init__(self, stop,n,timeout,args,rootpath,**keywords):
+	def __init__(self, stop,n,args,**keywords):
 		super(KThread, self).__init__()
 		self.found 		= False
 		self.stop  		= stop
 		self.n 			= n
-		self.timeout  	= timeout
 		self.args 		= args
-		self.rootpath 	= rootpath
 	
 	def run(this):
 		try:
-			p = q = None
-			p = int(os.popen("sage %s/sage/ecm.sage %s"%(this.rootpath,str(this.n))).read())
-			q = this.n // p
-			if(p*q != this.n or p==1 ):
-				return None
-			else:
+			fact = ecm.find_factor(this.n)
+			if(len(fact) == 2 ):
+				p = int(list(fact)[0])
+				q = this.n//p
 				if(not this.args.json):
 					if(this.args.verbose):
 						logger("[+] ecm1 attack found",'log',1,0)
@@ -55,13 +50,94 @@ class KThread(threading.Thread):
 						print(str(p))
 						print(str(q))
 				else:
-					print('{"method":"ecm1","factor":[%s,%s]}'%(str(p),str(q)))
-
+					print('{"method":"sage","factor":[%s,%s]}'%(str(p),str(q)))
 
 				this.found = True
 				return p,q
-				
-		except Exception as ex:
-			#print(ex)
-			return None
 
+			else:
+				res = '['+str(fact).replace(' *',',').replace("^","**")+'] '
+				if(not args.json):
+					if(args.verbose):
+						logger("[+] Sage Factor found :",'log',1,0)
+					if not args.quiet:
+						logger('[>] Factors = %s'%str(res),'flag',0,1)
+					else:
+						print(str(res))
+				else:
+					print('{"method":"sage","factor":%s}'%(str(res)))
+
+				this.found = True
+				return res
+
+				this.stop.cancel()
+		except Exception as ex:
+			logger('[+] Error: %s'%str(ex),'error',0,0)
+
+
+# class KThread2(threading.Thread):
+# 	def __init__(self, stop,n,args,**keywords):
+# 		super(KThread, self).__init__()
+# 		self.found 		= False
+# 		self.stop  		= stop
+# 		self.n 			= n
+# 		self.args 		= args
+	
+# 	def run(this):
+# 		try:
+# 			fact = factor(this.n)
+# 			if(len(fact) == 2 ):
+# 				p = int(list(fact)[0])
+# 				q = this.n//p
+# 				if(not this.args.json):
+# 					if(this.args.verbose):
+# 						logger("[+] ecm1 attack found",'log',1,0)
+# 					if not this.args.quiet:
+# 						logger('[>] P=%s'%str(p),'flag',0,1)
+# 						logger('[>] Q=%s'%str(q),'flag',0,1)
+# 					else:
+# 						print(str(p))
+# 						print(str(q))
+# 				else:
+# 					print('{"method":"sage","factor":[%s,%s]}'%(str(p),str(q)))
+
+# 				this.found = True
+# 				return p,q
+
+# 			else:
+# 				res = '['+str(fact).replace(' *',',').replace("^","**")+'] '
+# 				if(not args.json):
+# 					if(args.verbose):
+# 						logger("[+] Sage Factor found :",'log',1,0)
+# 					if not args.quiet:
+# 						logger('[>] Factors = %s'%str(res),'flag',0,1)
+# 					else:
+# 						print(str(res))
+# 				else:
+# 					print('{"method":"sage","factor":%s}'%(str(res)))
+
+# 				this.found = True
+# 				return res
+
+# 				this.stop.cancel()
+# 		except Exception as ex:
+# 			logger('[+] Error: %s'%str(ex),'error',0,0)
+
+
+# # def sage_search(n,args):
+# 	try:
+# 		if(args.verbose):logger("[+] Testing using Sage Fast Factorization :",'info',1,0)
+# 		res = '['+str(factor(n)).replace(' *',',').replace("^","**")+'] '
+# 		if(not args.json):
+# 			if(args.verbose):
+# 				logger("[+] Sage Factor found :",'log',1,0)
+# 			if not args.quiet:
+# 				logger('[>] Factors = %s'%str(res),'flag',0,1)
+# 			else:
+# 				print(str(res))
+# 		else:
+# 			print('{"method":"sage","factor":%s}'%(str(res)))
+# 		return res
+# 	except Exception as ex:
+# 		print(ex)
+# 		return None

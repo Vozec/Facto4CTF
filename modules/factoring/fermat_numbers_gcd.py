@@ -4,7 +4,7 @@ from tqdm import tqdm
 from modules.logger import logger,found_prime
 from modules.utils import gcd
 
-def fermat_numbers_gcd(stop,n,timeout,args):
+def fermat_numbers_gcd(stop,n,args):
 	try:
 		limit = 10000
 		p = q = None

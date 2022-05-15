@@ -5,7 +5,7 @@ import math
 from modules.logger import logger,found_prime
 from modules.utils import gcd, isqrt, next_prime, primes, powmod
 
-def pollard_p_1(stop,n,timeout,args):
+def pollard_p_1(stop,n,args):
 	try:
 		z = []
 		logn = math.log(int(isqrt(n)))

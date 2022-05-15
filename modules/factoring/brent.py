@@ -4,9 +4,9 @@ from tqdm import tqdm
 from modules.logger import logger,found_prime
 from modules.utils import gcd,powmod
 
-def brent(stop,n,timeout,args):
+def brent(stop,n,args):
 	try:
-		poll_res = run(stop,n,timeout,args)
+		poll_res = run(stop,n,args)
 		if(poll_res != None):
 			p = poll_res
 			q = n//poll_res
@@ -18,7 +18,7 @@ def brent(stop,n,timeout,args):
 	except Exception as ex:
 		logger('[+] Error: %s'%str(ex),'error',0,0)
 
-def run(stop,N,timeout,args):
+def run(stop,N,args):
 	if N & 1 == 0:
 		return 2
 	g = N

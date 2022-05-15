@@ -1,8 +1,12 @@
 from factordb.factordb import FactorDB
 from modules.logger import logger,found_prime
 
+from sage.all import *
+
 def factordb_search(n,args):
 	try:
+		if(args.verbose):logger("[+] Testing on factordb api :",'info',1,0)
+
 		f = FactorDB(n)
 		f.connect()
 		res = f.get_factor_list()
@@ -23,4 +27,3 @@ def factordb_search(n,args):
 		print(ex)
 		return None
 
-def sage_search(n,args):

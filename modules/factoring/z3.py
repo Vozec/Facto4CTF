@@ -5,8 +5,8 @@ from modules.logger import logger,found_prime
 from z3 import Solver, Int, set_param, sat
 from modules.utils import isqrt,next_prime
 
-def z3(stop,n,timeout,args):
-	t1 = multiprocessing.Process(target =run, args =(stop,n,timeout,args))
+def z3(stop,n,args):
+	t1 = multiprocessing.Process(target =run, args =(stop,n,args))
 	t1.start()
 	while(True):
 		if(stop.is_cancelled):
@@ -16,10 +16,10 @@ def z3(stop,n,timeout,args):
 			return None		
 		time.sleep(1.5)
 
-def run(stop,n,timeout,args):
+def run(stop,n,args):
 	try:
 		s = Solver()
-		s.set("timeout", timeout * 1000)
+		s.set("timeout", 60 * 3 * 1000)
 		p = Int("p")
 		q = Int("q")
 		i = int(isqrt(n))
